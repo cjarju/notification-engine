@@ -1,0 +1,39 @@
+services:
+  user-service:
+    build:
+      context: .
+      dockerfile: services/user/Dockerfile
+      target: dev
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://user-db:5432/${USER_DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${USER_DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${USER_DB_PASSWORD}
+    volumes:
+      - ./services/user:/workspace/services/user
+      - user-target:/workspace/services/user/target
+      - maven-cache:/root/.m2
+    depends_on:
+      user-db:
+        condition: service_healthy
+
+  user-db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: ${USER_DB_NAME}
+      POSTGRES_USER: ${USER_DB_USER}
+      POSTGRES_PASSWORD: ${USER_DB_PASSWORD}
+    volumes:
+      - user-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${USER_DB_USER} -d ${USER_DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  maven-cache:
+  user-db-data:
+  user-target:
