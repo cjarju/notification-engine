@@ -17,6 +17,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import com.example.user.constants.RegExpStr;
+
 @Getter
 @ToString(includeFieldNames=true)
 @Entity
@@ -41,7 +43,7 @@ public class User {
     private String email;
 
     @Setter
-    @Pattern(regexp = "^\\+[1-9]\\d{1,14}$")
+    @Pattern(regexp = RegExpStr.PHONE_NUM_E164)
     @Size(max = 20)
     @Column(name = "phone_number", length = 20)
     private String phoneNumber;

@@ -22,8 +22,10 @@ import com.example.user.dto.UserUpdateRequest;
 
 import jakarta.validation.Valid;
 
+import com.example.user.constants.ApiPaths;
+
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping(ApiPaths.USERS)
 public class UserController {
 
     private final UserService service;
@@ -43,7 +45,7 @@ public class UserController {
     ) {
         UserResponse response = service.createUser(request);
 
-        URI location = URI.create("/api/v1/users/" + response.id());
+        URI location = URI.create(ApiPaths.USERS + "/" + response.id());
 
         return ResponseEntity
             .created(location)
