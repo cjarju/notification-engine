@@ -24,8 +24,7 @@ public class UserService {
     }
 
     public UserResponse findById(Long id) {
-        User user = repository.findById(id)
-            .orElseThrow(() -> new UserNotFoundException(id));
+        User user = getUser(id);
 
         return mapper.toDto(user);
     }
@@ -33,53 +32,49 @@ public class UserService {
     @Transactional
     public UserResponse createUser(UserCreateRequest request) {
         User user = mapper.toEntity(request);
+        user = save(user, request.email());
 
-        try {
-            user = repository.save(user);
-        } catch (DataIntegrityViolationException ex) {
-            throw new UserAlreadyExistsException(request.email(), ex);
-        }
-        
         return mapper.toDto(user);
     }
 
     @Transactional
     public UserResponse updateUser(Long id, UserUpdateRequest request) {
-        User user = repository.findById(id)
-            .orElseThrow(() -> new UserNotFoundException(id));
-
+        User user = getUser(id);
         mapper.updateEntity(request, user);
-
-        try {
-            user = repository.save(user);
-        } catch (DataIntegrityViolationException ex) {
-            throw new UserAlreadyExistsException(request.email(), ex);
-        }
+        user = save(user, request.email());
 
         return mapper.toDto(user);
     }
 
     @Transactional
     public UserResponse patchUser(Long id, UserPatchRequest request) {
-        User user = repository.findById(id)
-            .orElseThrow(() -> new UserNotFoundException(id));
-
+        User user = getUser(id);
         mapper.patchEntity(request, user);
-
-        try {
-            user = repository.save(user);
-        } catch (DataIntegrityViolationException ex) {
-            throw new UserAlreadyExistsException(user.getEmail(), ex);
-        }
+        user = save(user, user.getEmail());
 
         return mapper.toDto(user);
     }
 
     @Transactional
     public void deleteUser(Long id) {
-        User user = repository.findById(id)
-            .orElseThrow(() -> new UserNotFoundException(id));
+        User user = getUser(id);
 
         repository.delete(user);
     }
+
+    // -- Private methods --
+
+    private User getUser(Long id) {
+        return repository.findById(id)
+            .orElseThrow(() -> new UserNotFoundException(id));
+    }
+
+    private User save(User user, String email) {
+        try {
+            return repository.save(user);
+        } catch (DataIntegrityViolationException ex) {
+            throw new UserAlreadyExistsException(email, ex);
+        }
+    }
+
 }
