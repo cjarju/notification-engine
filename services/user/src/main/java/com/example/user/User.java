@@ -13,6 +13,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Pattern;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@ToString(includeFieldNames=true)
 @Entity
 @Table(name = "users")
 public class User {
@@ -21,22 +27,26 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @NotBlank
     @Size(max = 50)
     @Column(nullable = false, unique = true, length = 50)
     private String username;
 
+    @Setter
     @NotBlank
     @Email
     @Size(max = 100)
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
+    @Setter
     @Pattern(regexp = "^\\+[1-9]\\d{1,14}$")
     @Size(max = 20)
     @Column(name = "phone_number", length = 20)
     private String phoneNumber;
 
+    @Setter
     @Column(name = "is_active", nullable = false)
     private Boolean active = true;
 
@@ -45,55 +55,4 @@ public class User {
 
     @Column(name = "updated_at", nullable = false, insertable = false, updatable = false)
     private OffsetDateTime updatedAt;
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
-    public OffsetDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public OffsetDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    @Override
-    public String toString() {
-        return "User [id=" + id + ", username=" + username + ", email=" + email +
-            ", phoneNumber=" + phoneNumber + ", active=" + active + "]";
-    }
-
 }
