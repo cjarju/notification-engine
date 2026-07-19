@@ -1,0 +1,41 @@
+name: Update Roadmap
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  roadmap:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Update README
+        run: python scripts/update_roadmap.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit README
+        if: ${{ !env.ACT }}
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "docs: update roadmap (README)"
+          file_pattern: README.md
