@@ -3,6 +3,7 @@ package com.example.user;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
@@ -26,9 +27,10 @@ public class UserService {
         this.mapper = mapper;
     }
 
-    public PageResponse<UserResponse>findUsers(Pageable pageable) {
-        Page<User> page = repository.findAll(pageable);
-        
+    public PageResponse<UserResponse>findUsers(UserSearchCriteria criteria, Pageable pageable) {
+        Specification<User> spec = UserSpecification.withCriteria(criteria);
+        Page<User> page = repository.findAll(spec, pageable);
+
         return new PageResponse<>(
                 page.getContent()
                     .stream()

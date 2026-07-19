@@ -39,10 +39,10 @@ public class UserController {
 
     @GetMapping
     public PageResponse<UserResponse> getUsers(
-            @PageableDefault(size = 10, sort = "id")
-            Pageable pageable) {
+            UserSearchCriteria criteria,
+            @PageableDefault(size = 10, sort = "id") Pageable pageable) {
 
-        return service.findUsers(pageable);
+        return service.findUsers(criteria, pageable);
     }
 
     @GetMapping("/{id}")
