@@ -1,6 +1,8 @@
 package com.example.user;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
@@ -21,6 +23,11 @@ public class UserService {
     public UserService(UserRepository repository, UserMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
+    }
+
+    public Page<UserResponse> findUsers(Pageable pageable) {
+        return repository.findAll(pageable)
+                .map(mapper::toDto);
     }
 
     public UserResponse findById(Long id) {
@@ -76,5 +83,4 @@ public class UserService {
             throw new UserAlreadyExistsException(email, ex);
         }
     }
-
 }
