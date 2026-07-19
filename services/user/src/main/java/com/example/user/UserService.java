@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
+import com.example.user.dto.PageResponse;
 import com.example.user.dto.UserCreateRequest;
 import com.example.user.dto.UserPatchRequest;
 import com.example.user.dto.UserResponse;
@@ -25,9 +26,21 @@ public class UserService {
         this.mapper = mapper;
     }
 
-    public Page<UserResponse> findUsers(Pageable pageable) {
-        return repository.findAll(pageable)
-                .map(mapper::toDto);
+    public PageResponse<UserResponse>findUsers(Pageable pageable) {
+        Page<User> page = repository.findAll(pageable);
+        
+        return new PageResponse<>(
+                page.getContent()
+                    .stream()
+                    .map(mapper::toDto)
+                    .toList(),
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.isFirst(),
+                page.isLast()
+        );
     }
 
     public UserResponse findById(Long id) {

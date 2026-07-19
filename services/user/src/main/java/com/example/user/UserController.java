@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.example.user.dto.PageResponse;
 import com.example.user.dto.UserCreateRequest;
 import com.example.user.dto.UserPatchRequest;
 import com.example.user.dto.UserResponse;
@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @GetMapping
-    public Page<UserResponse> getUsers(
+    public PageResponse<UserResponse> getUsers(
             @PageableDefault(size = 10, sort = "id")
             Pageable pageable) {
 
