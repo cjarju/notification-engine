@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.data.web.PageableDefault;
@@ -22,6 +23,7 @@ import com.example.user.dto.UserCreateRequest;
 import com.example.user.dto.UserPatchRequest;
 import com.example.user.dto.UserResponse;
 import com.example.user.dto.UserUpdateRequest;
+import com.example.user.enums.ProjectionType;
 
 import jakarta.validation.Valid;
 
@@ -38,11 +40,15 @@ public class UserController {
     }
 
     @GetMapping
-    public PageResponse<UserResponse> getUsers(
+    public PageResponse<?> getUsers(
             UserSearchCriteria criteria,
+            @RequestParam(defaultValue = "SUMMARY") ProjectionType projection,
             @PageableDefault(size = 10, sort = "id") Pageable pageable) {
 
-        return service.findUsers(criteria, pageable);
+        return switch (projection) {
+            case DETAIL -> service.findUsers(criteria, pageable);
+            case SUMMARY -> service.findSummaryUsers(criteria, pageable);
+        };
     }
 
     @GetMapping("/{id}")

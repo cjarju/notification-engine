@@ -1,6 +1,7 @@
 package com.example.user;
 
 import com.example.user.dto.UserResponse;
+import com.example.user.dto.UserSummaryResponse;
 import com.example.user.dto.UserUpdateRequest;
 import com.example.user.dto.UserCreateRequest;
 import com.example.user.dto.UserPatchRequest;
@@ -15,6 +16,8 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface UserMapper {
 
     UserResponse toDto(User user);
+
+    UserSummaryResponse toSummaryDto(User user);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)

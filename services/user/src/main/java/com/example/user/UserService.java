@@ -11,9 +11,11 @@ import com.example.user.dto.PageResponse;
 import com.example.user.dto.UserCreateRequest;
 import com.example.user.dto.UserPatchRequest;
 import com.example.user.dto.UserResponse;
+import com.example.user.dto.UserSummaryResponse;
 import com.example.user.dto.UserUpdateRequest;
 import com.example.user.exception.UserAlreadyExistsException;
 import com.example.user.exception.UserNotFoundException;
+import com.example.user.support.PageResponseMapper;
 
 
 @Service
@@ -27,21 +29,23 @@ public class UserService {
         this.mapper = mapper;
     }
 
-    public PageResponse<UserResponse>findUsers(UserSearchCriteria criteria, Pageable pageable) {
-        Specification<User> spec = UserSpecification.withCriteria(criteria);
-        Page<User> page = repository.findAll(spec, pageable);
+    public PageResponse<UserResponse>findUsers(
+        UserSearchCriteria criteria,
+        Pageable pageable) {
 
-        return new PageResponse<>(
-                page.getContent()
-                    .stream()
-                    .map(mapper::toDto)
-                    .toList(),
-                page.getNumber(),
-                page.getSize(),
-                page.getTotalElements(),
-                page.getTotalPages(),
-                page.isFirst(),
-                page.isLast()
+        return PageResponseMapper.map(
+                findPage(criteria, pageable),
+                mapper::toDto
+        );
+    }
+
+    public PageResponse<UserSummaryResponse>findSummaryUsers(
+        UserSearchCriteria criteria,
+        Pageable pageable) {
+
+        return PageResponseMapper.map(
+                findPage(criteria, pageable),
+                mapper::toSummaryDto
         );
     }
 
@@ -97,5 +101,15 @@ public class UserService {
         } catch (DataIntegrityViolationException ex) {
             throw new UserAlreadyExistsException(email, ex);
         }
+    }
+
+    private Page<User> findPage(
+        UserSearchCriteria criteria,
+        Pageable pageable) {
+
+        Specification<User> spec =
+                    UserSpecification.withCriteria(criteria);
+
+        return repository.findAll(spec, pageable);
     }
 }

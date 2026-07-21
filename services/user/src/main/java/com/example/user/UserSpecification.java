@@ -1,6 +1,5 @@
 package com.example.user;
 
-
 import org.springframework.data.jpa.domain.Specification;
 
 public final class UserSpecification {
