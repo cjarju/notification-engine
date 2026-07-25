@@ -1,7 +1,5 @@
 package com.example.account.user;
 
-import java.net.URI;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +23,7 @@ import com.example.account.user.dto.UserResponse;
 import com.example.account.user.dto.UserUpdateRequest;
 
 import org.springframework.data.web.PageableDefault;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.data.domain.Pageable;
 
 import jakarta.validation.Valid;
@@ -34,9 +33,11 @@ import jakarta.validation.Valid;
 public class UserController {
 
     private final UserService service;
+    private final UserModelAssembler assembler;
 
-    public UserController(UserService service) {
+    public UserController(UserService service, UserModelAssembler assembler) {
         this.service = service;
+        this.assembler = assembler;
     }
 
     @GetMapping
@@ -52,37 +53,37 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public UserResponse getUser(@PathVariable("id") Long id) {
-        return service.findById(id);
+    public EntityModel<UserResponse> getUser(@PathVariable("id") Long id) {
+        return assembler.toModel(service.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<UserResponse> createUser(
+    public ResponseEntity<EntityModel<UserResponse>> createUser(
         @Valid @RequestBody UserCreateRequest request
     ) {
         UserResponse response = service.createUser(request);
 
-        URI location = URI.create(ApiPaths.USERS + "/" + response.id());
+        EntityModel<UserResponse> model = assembler.toModel(response);
 
         return ResponseEntity
-            .created(location)
-            .body(response);
+            .created(model.getRequiredLink("self").toUri())
+            .body(model);
     }
 
     @PutMapping("/{id}")
-    public UserResponse updateUser(
+    public EntityModel<UserResponse> updateUser(
         @PathVariable("id") Long id,
         @Valid @RequestBody UserUpdateRequest request
     ) {
-        return service.updateUser(id, request);
+        return assembler.toModel(service.updateUser(id, request));
     }
 
     @PatchMapping("/{id}")
-    public UserResponse patchUser(
+    public EntityModel<UserResponse> patchUser(
         @PathVariable("id") Long id,
         @Valid @RequestBody UserPatchRequest request
     ) {
-        return service.patchUser(id, request);
+        return assembler.toModel(service.patchUser(id, request));
     }
 
     @DeleteMapping("/{id}")
