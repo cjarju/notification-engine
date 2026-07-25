@@ -24,7 +24,9 @@ public final class PageResponseMapper {
                 page.getTotalElements(),
                 page.getTotalPages(),
                 page.isFirst(),
-                page.isLast()
+                page.isLast(),
+                PageLinksFactory.from(page)
+
         );
     }
 }

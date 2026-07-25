@@ -9,5 +9,6 @@ public record PageResponse<T>(
         long totalElements,
         int totalPages,
         boolean first,
-        boolean last
+        boolean last,
+        PageLinks links
 ) {}
