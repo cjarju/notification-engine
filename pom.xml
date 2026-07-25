@@ -23,11 +23,14 @@
         <mapstruct.version>1.6.3</mapstruct.version>
         <lombok.version>1.18.46</lombok.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+        <testcontainers.version>1.20.1</testcontainers.version>
+        <maven.surefire.version>3.5.5</maven.surefire.version>
+        <maven.failsafe.version>3.5.5</maven.failsafe.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!-- Imported BOM -->
+            <!-- Imported BOMs -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -36,7 +39,15 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- Version-managed dependencies -->
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-bom</artifactId>
+                <version>${testcontainers.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Dependencies without a BOM -->
             <dependency>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
@@ -54,15 +65,37 @@
     <build>
         <pluginManagement>
             <plugins>
+            <!-- Plugin defaults only (not enabled) -->
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring-boot.version}</version>
                 </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven.surefire.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${maven.failsafe.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
 
         <plugins>
+        <!-- Enabled plugins -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
