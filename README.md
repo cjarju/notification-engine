@@ -5,11 +5,11 @@ A highly scalable, distributed notification system that handles incoming events 
 
 <!-- ROADMAP:START -->
 
-_Last updated: 2026-07-19 10:25 UTC_
+_Last updated: 2026-07-26 11:45 UTC_
 
 | Milestone                      | Progress   |   Open |   Closed | Status      |
 |--------------------------------|------------|--------|----------|-------------|
-| Milestone 1: The Core Services | 🚧 79%      |      3 |       11 | In Progress |
+| Milestone 1: The Core Services | 🚧 87%      |      2 |       13 | In Progress |
 
 ---
 
@@ -23,7 +23,7 @@ Implement the MVP of the core services using direct synchronous communication. U
 - [x] Implement profile management for the user domain
 - [ ] Implement user service preferences domain
 - [ ] Implement ingestion service
-- [ ] Implement HATEOAS-compliant pagination, sorting, filtering, and projection for User API
+- [x] Implement HATEOAS-compliant pagination, sorting, filtering, and projection for User API
 - [x] Automate roadmap section updates in README
 
 
