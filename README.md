@@ -29,5 +29,7 @@ Implement the MVP of the core services using direct synchronous communication. U
 
 <!-- ROADMAP:END -->
 
+> This roadmap is automatically generated from GitHub Milestones and Issues.
+
 ## License
 The project is licensed under the MIT License. Refer to [license](LICENSE) for more information.
