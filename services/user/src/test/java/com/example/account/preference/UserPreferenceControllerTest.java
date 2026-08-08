@@ -6,18 +6,16 @@ import com.example.account.preference.enums.DeliveryChannel;
 import com.example.account.user.User;
 import com.example.account.user.UserRepository;
 import com.example.account.user.UserTestDataFactory;
+import com.example.account.common.constants.ApiPaths;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 class UserPreferenceControllerTest extends BaseIntegrationTest {
 
@@ -30,7 +28,7 @@ class UserPreferenceControllerTest extends BaseIntegrationTest {
     @Autowired
     private UserRepository userRepository;
 
-    private User alice;
+    private User foo;
 
     private Long preferenceId;
 
@@ -39,14 +37,14 @@ class UserPreferenceControllerTest extends BaseIntegrationTest {
         userPreferenceRepository.deleteAll();
         userRepository.deleteAll();
 
-        alice = userRepository.save(
-            UserTestDataFactory.activeUser("alice")
+        foo = userRepository.save(
+            UserTestDataFactory.activeUser("foo")
         );
 
         UserPreference preference =
             userPreferenceRepository.save(
                 UserPreferenceTestDataFactory.userPreference(
-                    alice,
+                    foo,
                     AlertCategory.SECURITY,
                     DeliveryChannel.EMAIL
                 )
@@ -58,7 +56,7 @@ class UserPreferenceControllerTest extends BaseIntegrationTest {
     @Test
     void getPreferences_returns200AndPreferenceList() throws Exception {
         mockMvc.perform(
-                get("/api/v1/users/{userId}/preferences", alice.getId())
+                get(ApiPaths.USER_PREFERENCES, foo.getId())
             )
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -70,7 +68,7 @@ class UserPreferenceControllerTest extends BaseIntegrationTest {
     @Test
     void getPreferences_whenUserDoesNotExist_returns404() throws Exception {
         mockMvc.perform(
-                get("/api/v1/users/{userId}/preferences", 99999L)
+                get(ApiPaths.USER_PREFERENCES, 99999L)
             )
             .andExpect(status().isNotFound());
     }
@@ -79,8 +77,8 @@ class UserPreferenceControllerTest extends BaseIntegrationTest {
     void getPreference_returns200AndPreference() throws Exception {
         mockMvc.perform(
                 get(
-                    "/api/v1/users/{userId}/preferences/{preferenceId}",
-                    alice.getId(),
+                    ApiPaths.USER_PREFERENCE,
+                    foo.getId(),
                     preferenceId
                 )
             )
@@ -94,8 +92,8 @@ class UserPreferenceControllerTest extends BaseIntegrationTest {
     void getPreference_whenPreferenceDoesNotExist_returns404() throws Exception {
         mockMvc.perform(
                 get(
-                    "/api/v1/users/{userId}/preferences/{preferenceId}",
-                    alice.getId(),
+                    ApiPaths.USER_PREFERENCE,
+                    foo.getId(),
                     99999L
                 )
             )
@@ -113,7 +111,7 @@ class UserPreferenceControllerTest extends BaseIntegrationTest {
             """;
 
         mockMvc.perform(
-                post("/api/v1/users/{userId}/preferences", alice.getId())
+                post(ApiPaths.USER_PREFERENCES, foo.getId())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(request)
             )
@@ -133,7 +131,7 @@ class UserPreferenceControllerTest extends BaseIntegrationTest {
             """;
 
         mockMvc.perform(
-                post("/api/v1/users/{userId}/preferences", alice.getId())
+                post(ApiPaths.USER_PREFERENCES, foo.getId())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(request)
             )
@@ -150,8 +148,8 @@ class UserPreferenceControllerTest extends BaseIntegrationTest {
 
         mockMvc.perform(
                 patch(
-                    "/api/v1/users/{userId}/preferences/{preferenceId}",
-                    alice.getId(),
+                    ApiPaths.USER_PREFERENCE,
+                    foo.getId(),
                     preferenceId
                 )
                     .contentType(MediaType.APPLICATION_JSON)
@@ -171,8 +169,8 @@ class UserPreferenceControllerTest extends BaseIntegrationTest {
 
         mockMvc.perform(
                 patch(
-                    "/api/v1/users/{userId}/preferences/{preferenceId}",
-                    alice.getId(),
+                    ApiPaths.USER_PREFERENCE,
+                    foo.getId(),
                     99999L
                 )
                     .contentType(MediaType.APPLICATION_JSON)

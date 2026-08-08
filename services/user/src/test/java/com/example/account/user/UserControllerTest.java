@@ -1,19 +1,16 @@
 package com.example.account.user;
 
+import com.example.account.common.BaseIntegrationTest;
+import com.example.account.common.constants.ApiPaths;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.example.account.common.BaseIntegrationTest;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class UserControllerTest extends BaseIntegrationTest {
 
@@ -23,28 +20,28 @@ public class UserControllerTest extends BaseIntegrationTest {
     @Autowired
     UserRepository userRepository;
 
-    private User alice;
+    private User foo;
 
     @BeforeEach
     void setUp() {
         userRepository.deleteAll();
 
-        alice = userRepository.save(UserTestDataFactory.activeUser("alice"));
+        foo = userRepository.save(UserTestDataFactory.activeUser("foo"));
         userRepository.saveAll(UserTestDataFactory.activeUsers("bob", "charlie"));
     }
 
     @Test
     void getUser_returnsHateoasResponse() throws Exception {
-        mockMvc.perform(get("/api/v1/users/{id}", alice.getId()))
+        mockMvc.perform(get(ApiPaths.USER, foo.getId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(alice.getId()))
+                .andExpect(jsonPath("$.id").value(foo.getId()))
                 .andExpect(jsonPath("$._links.self.href").exists())
                 .andExpect(jsonPath("$._links.users.href").exists());
     }
 
     @Test
     void getUser_whenUserDoesNotExist_returns404() throws Exception {
-        mockMvc.perform(get("/api/v1/users/{id}", Long.MAX_VALUE))
+        mockMvc.perform(get(ApiPaths.USER, Long.MAX_VALUE))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.title").value("User not found"))
                 .andExpect(jsonPath("$.status").value(404));
@@ -52,7 +49,7 @@ public class UserControllerTest extends BaseIntegrationTest {
 
     @Test
     void listUsers_returnsPagedResponse() throws Exception {
-        mockMvc.perform(get("/api/v1/users")
+        mockMvc.perform(get(ApiPaths.USERS)
                 .param("active", "true")
                 .param("projection", "SUMMARY")
                 .param("sort", "id,asc")
@@ -67,7 +64,7 @@ public class UserControllerTest extends BaseIntegrationTest {
 
     @Test
     void listUsers_onLastPage_returnsNoNextLink() throws Exception {
-        mockMvc.perform(get("/api/v1/users")
+        mockMvc.perform(get(ApiPaths.USERS)
                 .param("active", "true")
                 .param("projection", "SUMMARY")
                 .param("sort", "id,asc")
@@ -86,7 +83,7 @@ public class UserControllerTest extends BaseIntegrationTest {
 
     @Test
     void createUser_withValidRequest_returnsCreatedUser() throws Exception {
-        mockMvc.perform(post("/api/v1/users")
+        mockMvc.perform(post(ApiPaths.USERS)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                     {
@@ -101,7 +98,7 @@ public class UserControllerTest extends BaseIntegrationTest {
 
     @Test
     void createUser_withInvalidRequest_returnsValidationErrors() throws Exception {
-        mockMvc.perform(post("/api/v1/users")
+        mockMvc.perform(post(ApiPaths.USERS)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{}"))
             .andExpect(status().isBadRequest())
@@ -112,21 +109,21 @@ public class UserControllerTest extends BaseIntegrationTest {
 
     @Test
     void patchUser_withValidEmail_returnsUpdatedUser() throws Exception {
-        mockMvc.perform(patch("/api/v1/users/{id}", alice.getId())
+        mockMvc.perform(patch(ApiPaths.USER, foo.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                     {
-                    "email": "alice.updated@example.com"
+                    "email": "foo.updated@example.com"
                     }
                     """))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(alice.getId()))
-                .andExpect(jsonPath("$.email").value("alice.updated@example.com"));
+                .andExpect(jsonPath("$.id").value(foo.getId()))
+                .andExpect(jsonPath("$.email").value("foo.updated@example.com"));
     }
 
     @Test
     void patchUser_withInvalidEmail_returnsValidationErrors() throws Exception {
-        mockMvc.perform(patch("/api/v1/users/{id}", alice.getId())
+        mockMvc.perform(patch(ApiPaths.USER, foo.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                     {
@@ -141,13 +138,13 @@ public class UserControllerTest extends BaseIntegrationTest {
 
     @Test
     void deleteUser_returns204() throws Exception {
-        mockMvc.perform(delete("/api/v1/users/{id}", alice.getId()))
+        mockMvc.perform(delete(ApiPaths.USER, foo.getId()))
                 .andExpect(status().isNoContent());
     }
 
     @Test
     void deleteUser_whenUserDoesNotExist_returns404() throws Exception {
-        mockMvc.perform(delete("/api/v1/users/{id}", Long.MAX_VALUE))
+        mockMvc.perform(delete(ApiPaths.USER, Long.MAX_VALUE))
                 .andExpect(status().isNotFound());
     }
 }

@@ -1,5 +1,11 @@
 package com.example.account.preference;
 
+import com.example.account.common.constants.ApiPaths;
+import com.example.account.common.enums.ProjectionType;
+import com.example.account.preference.dto.UserPreferenceCreateRequest;
+import com.example.account.preference.dto.UserPreferencePatchRequest;
+import com.example.account.preference.dto.UserPreferenceResponse;
+
 import java.util.List;
 
 import org.springframework.hateoas.EntityModel;
@@ -13,17 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.account.common.constants.ApiPaths;
-import com.example.account.common.enums.ProjectionType;
-import com.example.account.preference.dto.UserPreferenceCreateRequest;
-import com.example.account.preference.dto.UserPreferencePatchRequest;
-import com.example.account.preference.dto.UserPreferenceResponse;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping(ApiPaths.USERS + "/{userId}/preferences")
+@RequestMapping(ApiPaths.USER_PREFERENCES)
 @RequiredArgsConstructor
 public class UserPreferenceController {
 

@@ -38,7 +38,7 @@ class UserPreferenceServiceCacheTest {
     @Autowired
     private CacheManager cacheManager;
 
-    private User alice;
+    private User foo;
 
     @BeforeEach
     void setUp() {
@@ -47,18 +47,18 @@ class UserPreferenceServiceCacheTest {
         preferenceRepository.deleteAll();
         userRepository.deleteAll();
 
-        alice = userRepository.save(
-            UserTestDataFactory.activeUser("alice")
+        foo = userRepository.save(
+            UserTestDataFactory.activeUser("foo")
         );
 
         preferenceRepository.saveAll(List.of(
             UserPreferenceTestDataFactory.userPreference(
-                alice,
+                foo,
                 AlertCategory.SECURITY,
                 DeliveryChannel.EMAIL
             ),
             UserPreferenceTestDataFactory.userPreference(
-                alice,
+                foo,
                 AlertCategory.SECURITY,
                 DeliveryChannel.SMS
             )
@@ -67,7 +67,7 @@ class UserPreferenceServiceCacheTest {
 
     @Test
     void findUserPreferences_whenDataChangesAfterFirstRead_returnsCachedResult() {
-        Long userId = alice.getId();
+        Long userId = foo.getId();
 
         List<UserPreferenceResponse> first =
             service.findUserPreferences(userId);
@@ -87,7 +87,7 @@ class UserPreferenceServiceCacheTest {
 
     @Test
     void patchPreference_whenPreferencesAreCached_reloadsPreferencesAfterEviction() {
-        Long userId = alice.getId();
+        Long userId = foo.getId();
 
         UserPreference preference =
             preferenceRepository.findByUserId(userId).getFirst();
@@ -119,7 +119,7 @@ class UserPreferenceServiceCacheTest {
 
     @Test
     void createPreference_whenPreferencesAreCached_reloadsPreferencesAfterEviction() {
-        Long userId = alice.getId();
+        Long userId = foo.getId();
 
         List<UserPreferenceResponse> before =
             service.findUserPreferences(userId);
