@@ -8,7 +8,14 @@ import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Pattern;
 
 public record UserCreateRequest(
-    @NotBlank @Size(min = 3, max = 50) String username,
-    @NotBlank @Email String email,
-    @Pattern(regexp = RegExpStr.PHONE_NUM_E164) String phoneNumber
+    @NotBlank(message = "{user.username.required}")
+    @Size(min = 3, max = 50, message = "{user.username.size}")
+    String username,
+
+    @NotBlank(message = "{user.email.required}")
+    @Email(message = "{user.email.invalid}")
+    String email,
+
+    @Pattern(regexp = RegExpStr.PHONE_NUM_E164, message = "{user.phone.invalid}")
+    String phoneNumber
 ) {}

@@ -26,9 +26,15 @@ public interface UserMapper {
     User toEntity(UserCreateRequest request);
 
     // Full update (PUT)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     void updateEntity(UserUpdateRequest request, @MappingTarget User user);
 
     // Partial update (PATCH)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     void patchEntity(UserPatchRequest request, @MappingTarget User user);
 }
