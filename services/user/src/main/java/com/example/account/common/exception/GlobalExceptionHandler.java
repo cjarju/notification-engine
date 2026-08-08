@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.example.account.user.exception.UserAlreadyExistsException;
 import com.example.account.user.exception.UserNotFoundException;
-
+import com.example.account.preference.exception.UserPreferenceAlreadyExistsException;
+import com.example.account.preference.exception.UserPreferenceNotFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -27,6 +28,22 @@ public class GlobalExceptionHandler {
     public ProblemDetail handleUserAlreadyExists(UserAlreadyExistsException ex) {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.CONFLICT);
         problem.setTitle("User already exists");
+        problem.setDetail(ex.getMessage());
+        return problem;
+    }
+
+    @ExceptionHandler(UserPreferenceNotFoundException.class)
+    public ProblemDetail handleUserPreferenceNotFound(UserPreferenceNotFoundException ex) {
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+        problem.setTitle("User preference not found");
+        problem.setDetail(ex.getMessage());
+        return problem;
+    }
+
+    @ExceptionHandler(UserPreferenceAlreadyExistsException.class)
+    public ProblemDetail handleUserPreferenceAlreadyExists(UserPreferenceAlreadyExistsException ex) {
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+        problem.setTitle("User preference already exists");
         problem.setDetail(ex.getMessage());
         return problem;
     }
