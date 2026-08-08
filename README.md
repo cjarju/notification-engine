@@ -5,11 +5,11 @@ A highly scalable, distributed notification system that handles incoming events 
 
 <!-- ROADMAP:START -->
 
-_Last updated: 2026-07-26 11:45 UTC_
+_Last updated: 2026-08-08 14:16 UTC_
 
 | Milestone                      | Progress   |   Open |   Closed | Status      |
 |--------------------------------|------------|--------|----------|-------------|
-| Milestone 1: The Core Services | 🚧 87%      |      2 |       13 | In Progress |
+| Milestone 1: The Core Services | 🚧 94%      |      1 |       15 | In Progress |
 
 ---
 
@@ -21,7 +21,7 @@ Implement the MVP of the core services using direct synchronous communication. U
 - [x] Scaffold Maven monorepo root structure
 - [x] Initialize user service with Flyway schema migrations
 - [x] Implement profile management for the user domain
-- [ ] Implement user service preferences domain
+- [x] Implement user preference domain
 - [ ] Implement ingestion service
 - [x] Implement HATEOAS-compliant pagination, sorting, filtering, and projection for User API
 - [x] Automate roadmap section updates in README
