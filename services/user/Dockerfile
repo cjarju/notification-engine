@@ -9,8 +9,9 @@ WORKDIR /workspace
 COPY mvnw pom.xml ./
 COPY .mvn .mvn
 
-# Copy the child POM so Maven can understand the reactor
+# Copy the child POMs so Maven can understand the reactor
 COPY services/user/pom.xml services/user/pom.xml
+COPY services/ingestion/pom.xml services/ingestion/pom.xml
 
 # Make the Maven wrapper executable
 RUN chmod +x mvnw
@@ -48,6 +49,6 @@ WORKDIR /app
 
 COPY --from=build /workspace/services/user/target/*.jar app.jar
 
-EXPOSE 8080
+EXPOSE 8083
 
 ENTRYPOINT ["java", "-jar", "app.jar"]

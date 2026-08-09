@@ -11,6 +11,7 @@
 
     <modules>
         <module>services/user</module>
+        <module>services/ingestion</module>
     </modules>
 
     <properties>
