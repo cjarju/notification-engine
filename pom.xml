@@ -11,6 +11,7 @@
 
     <modules>
         <module>services/user</module>
+        <module>services/ingestion</module>
     </modules>
 
     <properties>
@@ -117,6 +118,11 @@
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok-mapstruct-binding</artifactId>
                             <version>${lombok-mapstruct-binding.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
+                            <version>${spring-boot.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
