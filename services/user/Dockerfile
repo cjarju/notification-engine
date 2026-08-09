@@ -1,7 +1,7 @@
 # ---------------------
 # Base
 # ---------------------
-FROM maven:3.9-eclipse-temurin-21 AS base
+FROM eclipse-temurin:21-jdk AS base
 
 WORKDIR /workspace
 
