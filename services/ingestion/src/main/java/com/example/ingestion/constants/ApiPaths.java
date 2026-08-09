@@ -6,4 +6,5 @@ public final class ApiPaths {
 
     public static final String NOTIFICATIONS = "/api/" + ServiceInfo.VERSION + "/notifications";
     public static final String SWAGGER_UI = "/swagger-ui.html";
+    public static final String DISPATCH = "/api/" + ServiceInfo.VERSION + "/dispatch";
 }
