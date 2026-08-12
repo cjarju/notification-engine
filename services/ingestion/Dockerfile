@@ -11,6 +11,7 @@ COPY .mvn .mvn
 
 # Copy the child POMs so Maven can understand the reactor
 COPY services/user/pom.xml services/user/pom.xml
+COPY services/dispatcher/pom.xml services/dispatcher/pom.xml
 COPY services/ingestion/pom.xml services/ingestion/pom.xml
 
 # Make the Maven wrapper executable
