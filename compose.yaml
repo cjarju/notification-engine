@@ -86,9 +86,35 @@ services:
       dispatcher-service:
         condition: service_healthy
 
+  gateway-service:
+    build:
+      context: .
+      dockerfile: services/gateway/Dockerfile
+      target: dev
+    ports:
+      - "8080:8080"
+    environment:
+      USER_SERVICE_URL: http://user-service:8080
+      DISPATCHER_SERVICE_URL: http://dispatcher-service:8080
+      INGESTION_SERVICE_URL: http://ingestion-service:8080
+    volumes:
+      - ./services/gateway:/workspace/services/gateway
+      - gateway-target:/workspace/services/gateway/target
+      - maven-cache:/root/.m2
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health/readiness"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    depends_on:
+      ingestion-service:
+        condition: service_healthy
+
 volumes:
   maven-cache:
   user-db-data:
   user-target:
   dispatcher-target:
   ingestion-target:
+  gateway-target:
