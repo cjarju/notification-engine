@@ -13,6 +13,7 @@ COPY .mvn .mvn
 COPY services/user/pom.xml services/user/pom.xml
 COPY services/dispatcher/pom.xml services/dispatcher/pom.xml
 COPY services/ingestion/pom.xml services/ingestion/pom.xml
+COPY services/gateway/pom.xml services/gateway/pom.xml
 
 # Make the Maven wrapper executable
 RUN chmod +x mvnw

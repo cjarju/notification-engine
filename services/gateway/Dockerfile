@@ -29,7 +29,7 @@ FROM base AS dev
 # Don't copy source for dev when using bind mounts
 
 # Run the service in dev mode
-CMD ["./mvnw", "-f", "services/dispatcher/pom.xml", "spring-boot:run"]
+CMD ["./mvnw", "-f", "services/gateway/pom.xml", "spring-boot:run"]
 
 # ---------------------
 # Build
@@ -37,10 +37,10 @@ CMD ["./mvnw", "-f", "services/dispatcher/pom.xml", "spring-boot:run"]
 FROM base AS build
 
 # Copy source
-COPY services/dispatcher services/dispatcher
+COPY services/gateway services/gateway
 
 # Build the service and its dependencies
-RUN ./mvnw -pl services/dispatcher -am clean package -DskipTests
+RUN ./mvnw -pl services/gateway -am clean package -DskipTests
 
 # ---------------------
 # Production
@@ -49,8 +49,8 @@ FROM eclipse-temurin:21-jre AS prod
 
 WORKDIR /app
 
-COPY --from=build /workspace/services/dispatcher/target/*.jar app.jar
+COPY --from=build /workspace/services/gateway/target/*.jar app.jar
 
-EXPOSE 8082
+EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
