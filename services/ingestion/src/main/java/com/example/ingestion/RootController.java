@@ -10,7 +10,7 @@ import com.example.ingestion.dto.ServiceInfoResponse;
 @RestController
 public class RootController {
 
-    @GetMapping("/")
+    @GetMapping(ApiPaths.PUBLIC_ROOT)
     public ServiceInfoResponse getInfo() {
         return new ServiceInfoResponse(
             ServiceInfo.NAME,

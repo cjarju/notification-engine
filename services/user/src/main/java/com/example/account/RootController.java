@@ -11,7 +11,7 @@ import com.example.account.common.dto.ServiceInfoResponse;
 @RestController
 public class RootController {
 
-    @GetMapping("/")
+    @GetMapping(ApiPaths.PUBLIC_ROOT)
     public ServiceInfoResponse getInfo() {
         return new ServiceInfoResponse(
             ServiceInfo.NAME,
