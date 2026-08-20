@@ -6,14 +6,14 @@ import com.example.dispatcher.dto.UserPreference;
 import com.example.dispatcher.exception.UserCommunicationException;
 import com.example.dispatcher.exception.UserNotFoundException;
 
-import java.util.List;
-
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
+
+import java.util.List;
 
 @Component
 public class UserClient {

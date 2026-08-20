@@ -1,7 +1,5 @@
 package com.example.account.user;
 
-import java.time.Instant;
-
 import com.example.account.common.constants.RegExpStr;
 
 import jakarta.persistence.Column;
@@ -18,6 +16,8 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.time.Instant;
 
 @Getter
 @ToString(includeFieldNames=true)

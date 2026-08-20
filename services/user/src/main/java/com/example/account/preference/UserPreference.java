@@ -1,7 +1,5 @@
 package com.example.account.preference;
 
-import java.time.Instant;
-
 import com.example.account.preference.enums.AlertCategory;
 import com.example.account.preference.enums.DeliveryChannel;
 import com.example.account.user.User;
@@ -22,6 +20,8 @@ import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.time.Instant;
 
 @Getter
 @ToString(includeFieldNames = true)

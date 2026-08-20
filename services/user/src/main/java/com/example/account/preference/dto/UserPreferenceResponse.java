@@ -1,9 +1,9 @@
 package com.example.account.preference.dto;
 
-import java.time.Instant;
-
 import com.example.account.preference.enums.AlertCategory;
 import com.example.account.preference.enums.DeliveryChannel;
+
+import java.time.Instant;
 
 public record UserPreferenceResponse(
     Long id,

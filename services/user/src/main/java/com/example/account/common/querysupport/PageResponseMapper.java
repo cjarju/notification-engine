@@ -1,10 +1,10 @@
 package com.example.account.common.querysupport;
 
-import java.util.function.Function;
+import com.example.account.common.dto.PageResponse;
 
 import org.springframework.data.domain.Page;
 
-import com.example.account.common.dto.PageResponse;
+import java.util.function.Function;
 
 public final class PageResponseMapper {
 

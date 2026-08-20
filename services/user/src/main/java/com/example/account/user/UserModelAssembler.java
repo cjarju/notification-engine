@@ -1,12 +1,12 @@
 package com.example.account.user;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import com.example.account.user.dto.UserResponse;
 
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
-import com.example.account.user.dto.UserResponse;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @Component
 public class UserModelAssembler

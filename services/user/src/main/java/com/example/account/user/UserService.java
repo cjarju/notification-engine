@@ -1,11 +1,5 @@
 package com.example.account.user;
 
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
-
 import com.example.account.common.dto.PageResponse;
 import com.example.account.common.querysupport.PageResponseMapper;
 import com.example.account.user.dto.UserCreateRequest;
@@ -16,8 +10,13 @@ import com.example.account.user.dto.UserUpdateRequest;
 import com.example.account.user.exception.UserAlreadyExistsException;
 import com.example.account.user.exception.UserNotFoundException;
 
-import jakarta.transaction.Transactional;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 
 @Service
 public class UserService {

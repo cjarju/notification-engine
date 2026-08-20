@@ -1,6 +1,9 @@
 package com.example.account.common.exception;
 
-import java.util.List;
+import com.example.account.user.exception.UserAlreadyExistsException;
+import com.example.account.user.exception.UserNotFoundException;
+import com.example.account.preference.exception.UserPreferenceAlreadyExistsException;
+import com.example.account.preference.exception.UserPreferenceNotFoundException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -8,10 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.example.account.user.exception.UserAlreadyExistsException;
-import com.example.account.user.exception.UserNotFoundException;
-import com.example.account.preference.exception.UserPreferenceAlreadyExistsException;
-import com.example.account.preference.exception.UserPreferenceNotFoundException;
+import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

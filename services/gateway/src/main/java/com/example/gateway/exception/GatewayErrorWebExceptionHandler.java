@@ -2,9 +2,6 @@ package com.example.gateway.exception;
 
 import com.example.gateway.constants.HeaderConstants;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.springframework.boot.webflux.error.ErrorWebExceptionHandler;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -18,17 +15,18 @@ import org.springframework.cloud.gateway.support.TimeoutException;
 
 import reactor.core.publisher.Mono;
 
+import io.netty.handler.timeout.ReadTimeoutException;
+
 import tools.jackson.databind.json.JsonMapper;
 
-import io.netty.handler.timeout.ReadTimeoutException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.ConnectException;
 import java.net.URI;
 import java.time.Instant;
 
-/*
- * Customize the error response body to be consistent with the error contract
- */
+// Customizes gateway-level error response body
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)

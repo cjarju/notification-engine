@@ -3,10 +3,10 @@ package com.example.ingestion.dto;
 import com.example.ingestion.enums.AlertCategory;
 import com.example.ingestion.enums.DeliveryChannel;
 
-import java.util.Map;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
+import java.util.Map;
 
 public record IngestRequest(
     @NotNull(message = "User ID is required")

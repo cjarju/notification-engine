@@ -1,11 +1,11 @@
 package com.example.ingestion;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.example.ingestion.constants.ApiPaths;
 import com.example.ingestion.constants.ServiceInfo;
 import com.example.ingestion.dto.ServiceInfoResponse;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class RootController {

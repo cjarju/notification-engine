@@ -9,6 +9,7 @@ import com.example.ingestion.config.DispatcherProperties;
 import com.example.ingestion.constants.ApiPaths;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
