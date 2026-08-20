@@ -40,7 +40,7 @@ public class UserService {
         );
     }
 
-    public PageResponse<UserSummaryResponse>findSummaryUsers(
+    public PageResponse<UserSummaryResponse>findUsersSummary(
         UserSearchCriteria criteria,
         Pageable pageable) {
 

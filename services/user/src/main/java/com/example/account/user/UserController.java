@@ -48,7 +48,7 @@ public class UserController {
 
         return switch (projection) {
             case DETAIL -> service.findUsers(criteria, pageable);
-            case SUMMARY -> service.findSummaryUsers(criteria, pageable);
+            case SUMMARY -> service.findUsersSummary(criteria, pageable);
         };
     }
 
