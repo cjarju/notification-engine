@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-public class UserControllerTest extends BaseIntegrationTest {
+class UserControllerTest extends BaseIntegrationTest {
 
     @Autowired
     MockMvc mockMvc;
