@@ -11,7 +11,7 @@ public record UserPreferenceResponse(
     String username,
     AlertCategory category,
     DeliveryChannel channel,
-    Boolean enabled,
+    boolean enabled,
     OffsetDateTime createdAt,
     OffsetDateTime updatedAt
 ) {}

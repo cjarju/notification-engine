@@ -7,7 +7,7 @@ public record UserResponse(
     String username,
     String email,
     String phoneNumber,
-    Boolean active,
+    boolean active,
     OffsetDateTime createdAt,
     OffsetDateTime updatedAt
 ) {}

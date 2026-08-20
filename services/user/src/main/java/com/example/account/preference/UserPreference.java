@@ -58,7 +58,7 @@ public class UserPreference {
 
     @Setter
     @Column(name = "is_enabled", nullable = false)
-    private Boolean enabled = true;
+    private boolean enabled = true;
 
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
     private OffsetDateTime createdAt;
