@@ -12,7 +12,7 @@ import java.util.List;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(DispatcherCommunicationException.class)
-    public ProblemDetail handleDispatcherCommunication(DispatcherCommunicationException ex) {
+    public ProblemDetail handleDispatcherCommunicationException(DispatcherCommunicationException ex) {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_GATEWAY);
         problem.setTitle("Dispatcher communication error");
         problem.setDetail(ex.getMessage());
@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ProblemDetail handleValidation(MethodArgumentNotValidException ex) {
+    public ProblemDetail handleValidationException(MethodArgumentNotValidException ex) {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
 
         problem.setTitle("Validation failed");

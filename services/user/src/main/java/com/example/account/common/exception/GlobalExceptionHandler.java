@@ -17,7 +17,7 @@ import java.util.List;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ProblemDetail handleUserNotFound(UserNotFoundException ex) {
+    public ProblemDetail handleUserNotFoundException(UserNotFoundException ex) {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
         problem.setTitle("User not found");
         problem.setDetail(ex.getMessage());
@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
-    public ProblemDetail handleUserAlreadyExists(UserAlreadyExistsException ex) {
+    public ProblemDetail handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.CONFLICT);
         problem.setTitle("User already exists");
         problem.setDetail(ex.getMessage());
@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UserPreferenceNotFoundException.class)
-    public ProblemDetail handleUserPreferenceNotFound(UserPreferenceNotFoundException ex) {
+    public ProblemDetail handleUserPreferenceNotFoundException(UserPreferenceNotFoundException ex) {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
         problem.setTitle("User preference not found");
         problem.setDetail(ex.getMessage());
@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UserPreferenceAlreadyExistsException.class)
-    public ProblemDetail handleUserPreferenceAlreadyExists(UserPreferenceAlreadyExistsException ex) {
+    public ProblemDetail handleUserPreferenceAlreadyExistsException(UserPreferenceAlreadyExistsException ex) {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.CONFLICT);
         problem.setTitle("User preference already exists");
         problem.setDetail(ex.getMessage());
@@ -49,7 +49,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ProblemDetail handleValidation(MethodArgumentNotValidException ex) {
+    public ProblemDetail handleValidationException(MethodArgumentNotValidException ex) {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
 
         problem.setTitle("Validation failed");

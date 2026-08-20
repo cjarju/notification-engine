@@ -12,7 +12,7 @@ import java.util.List;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserCommunicationException.class)
-    public ProblemDetail handleUserCommunication(UserCommunicationException ex) {
+    public ProblemDetail handleUserCommunicationException(UserCommunicationException ex) {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_GATEWAY);
         problem.setTitle("User service communication error");
         problem.setDetail(ex.getMessage());
@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ProblemDetail handleUserNotFound(UserNotFoundException ex) {
+    public ProblemDetail handleUserNotFoundException(UserNotFoundException ex) {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
         problem.setTitle("User not found");
         problem.setDetail(ex.getMessage());
@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ProblemDetail handleValidation(MethodArgumentNotValidException ex) {
+    public ProblemDetail handleValidationException(MethodArgumentNotValidException ex) {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
 
         problem.setTitle("Validation failed");
