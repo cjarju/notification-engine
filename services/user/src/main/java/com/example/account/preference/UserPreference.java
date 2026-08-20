@@ -1,6 +1,6 @@
 package com.example.account.preference;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
 import com.example.account.preference.enums.AlertCategory;
 import com.example.account.preference.enums.DeliveryChannel;
@@ -61,8 +61,8 @@ public class UserPreference {
     private boolean enabled = true;
 
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
-    private OffsetDateTime createdAt;
+    private Instant createdAt;
 
     @Column(name = "updated_at", nullable = false, insertable = false, updatable = false)
-    private OffsetDateTime updatedAt;
+    private Instant updatedAt;
 }

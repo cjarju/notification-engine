@@ -2,12 +2,12 @@ package com.example.dispatcher.dto;
 
 import com.example.dispatcher.enums.DispatchStatus;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
 public record DispatchResponse(
         String trackingId,
         Long userId,
         DispatchStatus status,
         String message,
-        OffsetDateTime timestamp
+        Instant timestamp
 ) {}

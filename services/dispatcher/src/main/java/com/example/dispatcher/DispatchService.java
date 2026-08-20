@@ -7,7 +7,7 @@ import com.example.dispatcher.enums.DispatchStatus;
 
 import org.springframework.stereotype.Service;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -50,7 +50,7 @@ public class DispatchService {
                 DispatchStatus.DELIVERED,
                 "Notification dispatched successfully via "
                         + request.channel(),
-                OffsetDateTime.now()
+                Instant.now()
         );
     }
 
@@ -63,7 +63,7 @@ public class DispatchService {
                 request.userId(),
                 DispatchStatus.REJECTED,
                 reason,
-                OffsetDateTime.now()
+                Instant.now()
         );
     }
 }

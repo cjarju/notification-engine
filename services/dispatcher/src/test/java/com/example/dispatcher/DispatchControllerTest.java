@@ -15,7 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -117,7 +117,7 @@ class DispatchControllerTest {
                 1001L,
                 DispatchStatus.DELIVERED,
                 "Dispatched",
-                OffsetDateTime.now()
+                Instant.now()
         );
 
         when(dispatchService.processDispatch(any())).thenReturn(response);

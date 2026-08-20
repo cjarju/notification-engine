@@ -1,6 +1,6 @@
 package com.example.account.user;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
 import com.example.account.common.constants.RegExpStr;
 
@@ -53,8 +53,8 @@ public class User {
     private boolean active = true;
 
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
-    private OffsetDateTime createdAt;
+    private Instant createdAt;
 
     @Column(name = "updated_at", nullable = false, insertable = false, updatable = false)
-    private OffsetDateTime updatedAt;
+    private Instant updatedAt;
 }

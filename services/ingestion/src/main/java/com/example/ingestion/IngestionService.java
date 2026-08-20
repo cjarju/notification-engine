@@ -1,6 +1,6 @@
 package com.example.ingestion;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class IngestionService {
             trackingId,
             request.userId(),
             dispatchResponse.status(),
-            OffsetDateTime.now()
+            Instant.now()
         );
     }
 

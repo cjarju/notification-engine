@@ -1,6 +1,6 @@
 package com.example.account.user.dto;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
 public record UserResponse(
     Long id,
@@ -8,6 +8,6 @@ public record UserResponse(
     String email,
     String phoneNumber,
     boolean active,
-    OffsetDateTime createdAt,
-    OffsetDateTime updatedAt
+    Instant createdAt,
+    Instant updatedAt
 ) {}

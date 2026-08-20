@@ -24,8 +24,7 @@ import io.netty.handler.timeout.ReadTimeoutException;
 
 import java.net.ConnectException;
 import java.net.URI;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
+import java.time.Instant;
 
 /*
  * Customize the error response body to be consistent with the error contract
@@ -84,7 +83,7 @@ public class GatewayErrorWebExceptionHandler implements ErrorWebExceptionHandler
         problemDetail.setTitle(gatewayError.title());
         problemDetail.setDetail(gatewayError.detail());
         problemDetail.setInstance(URI.create(path));
-        problemDetail.setProperty("timestamp", OffsetDateTime.now(ZoneOffset.UTC));
+        problemDetail.setProperty("timestamp", Instant.now());
         problemDetail.setProperty("correlationId", correlationId);
 
         ServerHttpResponse response = exchange.getResponse();

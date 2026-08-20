@@ -14,7 +14,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.context.annotation.Import;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.ArgumentMatchers.any;
@@ -97,7 +97,7 @@ class IngestionControllerTest {
                 "123-abc",
                 1001L,
                 "ACCEPTED",
-                OffsetDateTime.now()
+                Instant.now()
         );
 
         when(ingestionService.processIngestion(any(IngestRequest.class)))
