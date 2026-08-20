@@ -87,4 +87,16 @@ public class GlobalExceptionHandler {
 
         return problemDetail;
     }
+
+    @ExceptionHandler(Exception.class)
+    public ProblemDetail handleGenericException(Exception ex) {
+        
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        problemDetail.setTitle("Internal Server Error");
+        problemDetail.setDetail("An unexpected internal error occurred");
+        problemDetail.setType(URI.create("errors/internal-server-error"));
+        problemDetail.setProperty("timestamp", Instant.now());
+
+        return problemDetail;
+    }
 }
