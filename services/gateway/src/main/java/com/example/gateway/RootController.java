@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.Hidden;
 public class RootController {
 
     @GetMapping(ApiPaths.PUBLIC_ROOT)
-    public ServiceInfoResponse root() {
+    public ServiceInfoResponse getInfo() {
         return new ServiceInfoResponse(
             ServiceInfo.NAME,
             ServiceInfo.DESCRIPTION,

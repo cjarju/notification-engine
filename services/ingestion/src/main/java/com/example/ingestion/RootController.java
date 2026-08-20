@@ -11,7 +11,7 @@ import com.example.ingestion.dto.ServiceInfoResponse;
 public class RootController {
 
     @GetMapping("/")
-    public ServiceInfoResponse root() {
+    public ServiceInfoResponse getInfo() {
         return new ServiceInfoResponse(
             ServiceInfo.NAME,
             ServiceInfo.DESCRIPTION,

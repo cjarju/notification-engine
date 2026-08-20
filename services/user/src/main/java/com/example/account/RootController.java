@@ -12,7 +12,7 @@ import com.example.account.common.dto.ServiceInfoResponse;
 public class RootController {
 
     @GetMapping("/")
-    public ServiceInfoResponse root() {
+    public ServiceInfoResponse getInfo() {
         return new ServiceInfoResponse(
             ServiceInfo.NAME,
             ServiceInfo.DESCRIPTION,
