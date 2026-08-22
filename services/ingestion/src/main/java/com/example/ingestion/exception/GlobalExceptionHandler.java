@@ -5,6 +5,7 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +50,18 @@ public class GlobalExceptionHandler {
         problemDetail.setDetail("One or more fields are invalid");
         problemDetail.setProperty("timestamp", Instant.now());
         problemDetail.setProperty("errors", errors);
+
+        return problemDetail;
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ProblemDetail handleNoResourceFoundException(NoResourceFoundException ex) {
+
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+        problemDetail.setType(URI.create("errors/resource-not-found"));
+        problemDetail.setTitle("Resource not found");
+        problemDetail.setDetail("The requested resource was not found");
+        problemDetail.setProperty("timestamp", Instant.now());
 
         return problemDetail;
     }
