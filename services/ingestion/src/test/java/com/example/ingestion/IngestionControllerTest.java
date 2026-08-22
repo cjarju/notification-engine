@@ -21,6 +21,7 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -56,6 +57,15 @@ class IngestionControllerTest {
                 .andExpect(jsonPath("$.errors[?(@.field == 'content')]").isNotEmpty());
 
         verifyNoInteractions(ingestionService);
+    }
+
+    @Test
+    void ingest_whenResourceNotFound_returns404NotFound() throws Exception {
+
+        mockMvc.perform(get("/does-not-exist"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.title").value("Resource not found"))
+                .andExpect(jsonPath("$.detail").value("The requested resource was not found"));
     }
 
     @Test

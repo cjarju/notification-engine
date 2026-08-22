@@ -147,4 +147,13 @@ class UserControllerTest extends BaseIntegrationTest {
         mockMvc.perform(delete(ApiPaths.USER, Long.MAX_VALUE))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void getResource_whenResourceNotFound_returns404NotFound() throws Exception {
+
+        mockMvc.perform(get("/does-not-exist"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.title").value("Resource not found"))
+                .andExpect(jsonPath("$.detail").value("The requested resource was not found"));
+    }
 }
