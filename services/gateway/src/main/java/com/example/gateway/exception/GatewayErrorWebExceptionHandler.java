@@ -50,8 +50,8 @@ public class GatewayErrorWebExceptionHandler implements ErrorWebExceptionHandler
         GatewayError gatewayError = classify(exception);
 
         /*
-         * Only handle failures that represent communication problems with an
-         * upstream service. Everything else continues through the normal
+         * Only handle failures that represent communication problems with a
+         * downstream service. Everything else continues through the normal
          * WebFlux error handling chain.
          */
         if (gatewayError == null) {
@@ -66,7 +66,7 @@ public class GatewayErrorWebExceptionHandler implements ErrorWebExceptionHandler
         String path = exchange.getRequest().getPath().value();
 
         log.error(
-                "Gateway upstream failure: method={} path={} status={} " +
+                "Gateway downstream failure: method={} path={} status={} " +
                 "correlationId={} exception={}",
                 exchange.getRequest().getMethod(),
                 path,
@@ -116,7 +116,7 @@ public class GatewayErrorWebExceptionHandler implements ErrorWebExceptionHandler
                 HttpStatus.BAD_GATEWAY,
                 "errors/bad-gateway",
                 "Bad Gateway",
-                "The gateway could not communicate with the upstream service."
+                "The gateway could not communicate with the downstream service."
             );
         }
 
@@ -126,7 +126,7 @@ public class GatewayErrorWebExceptionHandler implements ErrorWebExceptionHandler
                 HttpStatus.GATEWAY_TIMEOUT,
                 "errors/gateway-timeout",
                 "Gateway Timeout",
-                "The upstream service did not respond within the allowed time."
+                "The downstream service did not respond within the allowed time."
             );
         }
 

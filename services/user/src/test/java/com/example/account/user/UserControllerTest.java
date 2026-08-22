@@ -149,7 +149,7 @@ class UserControllerTest extends BaseIntegrationTest {
     }
 
     @Test
-    void getResource_whenResourceNotFound_returns404NotFound() throws Exception {
+    void getResource_whenResourceDoesNotExist_returns404() throws Exception {
 
         mockMvc.perform(get("/does-not-exist"))
                 .andExpect(status().isNotFound())

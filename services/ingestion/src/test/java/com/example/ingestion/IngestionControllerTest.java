@@ -36,7 +36,7 @@ class IngestionControllerTest {
     private IngestionService ingestionService;
 
     @Test
-    void ingest_whenPayloadIsInvalid_returns400BadRequest() throws Exception {
+    void ingestNotification_whenPayloadIsInvalid_returns400BadRequest() throws Exception {
         String invalidJson = """
             {
               "userId": null,
@@ -60,16 +60,7 @@ class IngestionControllerTest {
     }
 
     @Test
-    void ingest_whenResourceNotFound_returns404NotFound() throws Exception {
-
-        mockMvc.perform(get("/does-not-exist"))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.title").value("Resource not found"))
-                .andExpect(jsonPath("$.detail").value("The requested resource was not found"));
-    }
-
-    @Test
-    void ingest_whenDispatcherFails_returns502BadGateway() throws Exception {
+    void ingestNotification_whenDispatcherFails_returns502BadGateway() throws Exception {
         String validJson = """
             {
               "userId": 1001,
@@ -94,7 +85,7 @@ class IngestionControllerTest {
     }
 
     @Test
-    void ingest_whenValidPayload_returns200Ok() throws Exception {
+    void ingestNotification_whenValidPayload_returns200Ok() throws Exception {
         String validJson = """
             {
               "userId": 1001,
@@ -122,4 +113,14 @@ class IngestionControllerTest {
                 .andExpect(jsonPath("$.status").value("ACCEPTED"))
                 .andExpect(jsonPath("$.userId").value(1001));
     }
+
+    @Test
+    void getResource_whenResourceDoesNotExist_returns404() throws Exception {
+
+        mockMvc.perform(get("/does-not-exist"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.title").value("Resource not found"))
+                .andExpect(jsonPath("$.detail").value("The requested resource was not found"));
+    }
+
 }

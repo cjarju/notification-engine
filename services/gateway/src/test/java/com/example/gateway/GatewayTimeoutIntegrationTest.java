@@ -51,7 +51,7 @@ class GatewayTimeoutIntegrationTest {
     }
 
     @Test
-    void request_whenUpstreamTimesOut_returns504GatewayTimeout() {
+    void proxyNotification_whenDownstreamTimesOut_returns504GatewayTimeout() {
 
         wireMock.stubFor(
             post(urlEqualTo(ApiPaths.NOTIFICATIONS))
@@ -90,7 +90,7 @@ class GatewayTimeoutIntegrationTest {
                 .jsonPath("$.status")
                 .isEqualTo(504)
                 .jsonPath("$.detail")
-                .isEqualTo("The upstream service did not respond within the allowed time.")
+                .isEqualTo("The downstream service did not respond within the allowed time.")
                 .jsonPath("$.timestamp")
                 .exists()
                 .jsonPath("$.instance")

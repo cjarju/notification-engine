@@ -39,7 +39,7 @@ class DispatcherClientTest {
     private MockRestServiceServer server;
 
     @Test
-    void dispatch_whenDownstreamReturns200_returnsDispatchResponse() {
+    void dispatchNotification_whenDownstreamReturns200_returnsDispatchResponse() {
         server.expect(requestTo(dispatcherBaseUrl + ApiPaths.DISPATCH))
                 .andExpect(method(HttpMethod.POST))
                 .andRespond(withSuccess("""
@@ -61,7 +61,7 @@ class DispatcherClientTest {
     }
 
     @Test
-    void dispatch_whenDownstreamReturns500_throwsDispatcherCommunicationException() {
+    void dispatchNotification_whenDownstreamReturns500_throwsDispatcherCommunicationException() {
         server.expect(requestTo(dispatcherBaseUrl + ApiPaths.DISPATCH))
                 .andRespond(withServerError());
 

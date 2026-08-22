@@ -36,7 +36,7 @@ class DispatchControllerTest {
     private DispatchService dispatchService;
 
     @Test
-    void dispatch_whenInvalidPayload_returns400BadRequest() throws Exception {
+    void dispatchNotification_whenInvalidPayload_returns400BadRequest() throws Exception {
         String invalidJson = """
             {
             "trackingId": "",
@@ -56,7 +56,7 @@ class DispatchControllerTest {
     }
 
     @Test
-    void dispatch_whenUserNotFound_returns404NotFound() throws Exception {
+    void dispatchNotification_whenUserNotFound_returns404NotFound() throws Exception {
         String validJson = """
             {
             "trackingId": "track-123",
@@ -79,16 +79,7 @@ class DispatchControllerTest {
     }
 
     @Test
-    void dispatch_whenResourceNotFound_returns404NotFound() throws Exception {
-
-        mockMvc.perform(get("/does-not-exist"))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.title").value("Resource not found"))
-                .andExpect(jsonPath("$.detail").value("The requested resource was not found"));
-    }
-
-    @Test
-    void dispatch_whenUserServiceFails_returns502BadGateway() throws Exception {
+    void dispatchNotification_whenUserServiceFails_returns502BadGateway() throws Exception {
         String validJson = """
             {
             "trackingId": "track-123",
@@ -111,7 +102,7 @@ class DispatchControllerTest {
     }
 
     @Test
-    void dispatch_whenValidPayload_returns200Ok() throws Exception {
+    void dispatchNotification_whenValidPayload_returns200Ok() throws Exception {
         String validJson = """
             {
             "trackingId": "track-123",
@@ -141,5 +132,14 @@ class DispatchControllerTest {
                 .andExpect(jsonPath("$.status").value("DELIVERED"))
                 .andExpect(jsonPath("$.message").value("Dispatched"))
                 .andExpect(jsonPath("$.timestamp").exists());
+    }
+
+    @Test
+    void getResource_whenResourceDoesNotExist_returns404() throws Exception {
+
+        mockMvc.perform(get("/does-not-exist"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.title").value("Resource not found"))
+                .andExpect(jsonPath("$.detail").value("The requested resource was not found"));
     }
 }
