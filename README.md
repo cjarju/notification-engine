@@ -5,15 +5,15 @@ A highly scalable, distributed notification system that handles incoming events 
 
 <!-- ROADMAP:START -->
 
-_Last updated: 2026-08-19 15:15 UTC_
+_Last updated: 2026-09-03 02:33 UTC_
 
 | Milestone                      | Progress   |   Open |   Closed | Status      |
 |--------------------------------|------------|--------|----------|-------------|
-| Milestone 1: The Core Services | 🚧 95%      |      1 |       21 | In Progress |
+| Milestone 1: The Core Services | 96%        |      1 |       23 | In Progress |
 
 ---
 
-### 🚧 Milestone 1: The Core Services
+### Milestone 1: The Core Services
 
 Implement the MVP of the core services using direct synchronous communication. Use Docker Compose to spin up the services.
 
@@ -27,7 +27,8 @@ Implement the MVP of the core services using direct synchronous communication. U
 - [x] Automate roadmap section updates in README
 - [x] Implement dispatcher service
 - [x] Set up API gateway for microservices
-- [ ] Refactor the core services
+- [x] Refactor the core services
+- [ ] Add performance test
 
 
 <!-- ROADMAP:END -->
