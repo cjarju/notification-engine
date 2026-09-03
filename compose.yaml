@@ -24,6 +24,9 @@ services:
       target: dev
     ports:
       - "8083:8080"
+    env_file:
+      - path: app.env
+        required: false
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://user-db:5432/${USER_DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${USER_DB_USER}
@@ -51,6 +54,9 @@ services:
       target: dev
     ports:
       - "8082:8080"
+    env_file:
+      - path: app.env
+        required: false
     environment:
       USER_SERVICE_URL: ${USER_SERVICE_URL}
     volumes:
@@ -74,6 +80,9 @@ services:
       target: dev
     ports:
       - "8081:8080"
+    env_file:
+      - path: app.env
+        required: false
     environment:
       DISPATCHER_SERVICE_URL: ${DISPATCHER_SERVICE_URL}
     volumes:
@@ -97,6 +106,9 @@ services:
       target: dev
     ports:
       - "8080:8080"
+    env_file:
+      - path: app.env
+        required: false
     environment:
       USER_SERVICE_URL: ${USER_SERVICE_URL}
       DISPATCHER_SERVICE_URL: ${DISPATCHER_SERVICE_URL}
