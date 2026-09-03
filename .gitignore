@@ -74,8 +74,17 @@ Thumbs.db
 # Environment files
 # =========================
 .env
-.env.*
-!.env.example
+*.env
+*.env.*
+!*.env.example
+
+# =========================
+# Secrets
+# =========================
+secrets/**
+!secrets/
+!secrets/*/
+!secrets/**/*.example
 
 # =========================
 # Temporary files
