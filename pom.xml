@@ -25,7 +25,7 @@
         <testcontainers.version>1.20.1</testcontainers.version>
         <wiremock.version>3.13.2</wiremock.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-boot.version>4.1.0</spring-boot.version>
+        <spring-boot.version>4.1.1</spring-boot.version>
         <spring-cloud.version>2025.1.2</spring-cloud.version>
         <springdoc.version>3.0.3</springdoc.version>
         <mapstruct.version>1.6.3</mapstruct.version>
