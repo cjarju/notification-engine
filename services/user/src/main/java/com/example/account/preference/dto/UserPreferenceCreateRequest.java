@@ -12,5 +12,5 @@ public record UserPreferenceCreateRequest(
     @NotNull(message = "{user.preference.channel.required}")
     DeliveryChannel channel,
 
-    Boolean enabled
+    boolean enabled
 ) {}

@@ -47,7 +47,7 @@ class GatewayIntegrationTest {
     }
 
     @Test
-    void notification_whenIngestionServiceSucceeds_returns202Accepted() throws Exception {
+    void proxyNotification_whenIngestionServiceSucceeds_returns202Accepted() throws Exception {
 
         wireMock.stubFor(
             post(urlEqualTo(ApiPaths.NOTIFICATIONS))
@@ -81,7 +81,7 @@ class GatewayIntegrationTest {
     }
 
     @Test
-    void request_whenCorrelationIdIsAbsent_generatesAndPropagatesCorrelationId() {
+    void proxyNotification_whenCorrelationIdIsAbsent_generatesAndPropagatesCorrelationId() {
 
         wireMock.stubFor(
             post(urlEqualTo(ApiPaths.NOTIFICATIONS))
@@ -121,7 +121,7 @@ class GatewayIntegrationTest {
     }
 
     @Test
-    void request_whenCorrelationIdExists_preservesAndPropagatesCorrelationId() {
+    void proxyNotification_whenCorrelationIdExists_preservesAndPropagatesCorrelationId() {
 
         String correlationId = "abc123";
 
@@ -164,7 +164,7 @@ class GatewayIntegrationTest {
     }
 
     @Test
-    void request_whenDownstreamReturns400_proxiesStatusAndBody() {
+    void proxyNotification_whenIngestionServiceReturns400_returnsProxiedResponse() {
 
         wireMock.stubFor(
             post(urlEqualTo(ApiPaths.NOTIFICATIONS))
@@ -200,7 +200,7 @@ class GatewayIntegrationTest {
     }
 
     @Test
-    void request_whenDownstreamReturns500_proxiesStatus() {
+    void proxyNotification_whenIngestionServiceReturns500_returnsProxiedResponse() {
 
         wireMock.stubFor(
             post(urlEqualTo(ApiPaths.NOTIFICATIONS))
@@ -228,40 +228,7 @@ class GatewayIntegrationTest {
     }
 
     @Test
-    void user_whenUserServiceSucceeds_proxiesResponse() {
-
-        wireMock.stubFor(
-            get(urlEqualTo(ApiPaths.USERS + "/1001"))
-                .willReturn(
-                    okJson("""
-                        {
-                          "id": 1001,
-                          "email": "user@example.com"
-                        }
-                        """)
-                )
-        );
-
-        webTestClient.get()
-                .uri(ApiPaths.USERS + "/1001")
-                .exchange()
-                .expectStatus()
-                .isOk()
-                .expectBody()
-                .jsonPath("$.id")
-                .isEqualTo(1001)
-                .jsonPath("$.email")
-                .isEqualTo("user@example.com");
-
-        wireMock.verify(
-            getRequestedFor(
-                urlEqualTo(ApiPaths.USERS + "/1001")
-            )
-        );
-    }
-
-    @Test
-    void notification_whenIngestionReturns504_proxiesStatusAndBody() {
+    void proxyNotification_whenIngestionServiceReturns504_returnsProxiedResponse() {
         String responseBody = """
                 {
                   "type": "errors/gateway-timeout",
@@ -310,5 +277,38 @@ class GatewayIntegrationTest {
                 .isEqualTo(504)
                 .jsonPath("$.detail")
                 .isEqualTo("Ingestion service failed");
+    }
+
+    @Test
+    void proxyRequest_whenUserServiceSucceeds_returnsProxiedResponse() {
+
+        wireMock.stubFor(
+            get(urlEqualTo(ApiPaths.USERS + "/1001"))
+                .willReturn(
+                    okJson("""
+                        {
+                          "id": 1001,
+                          "email": "user@example.com"
+                        }
+                        """)
+                )
+        );
+
+        webTestClient.get()
+                .uri(ApiPaths.USERS + "/1001")
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody()
+                .jsonPath("$.id")
+                .isEqualTo(1001)
+                .jsonPath("$.email")
+                .isEqualTo("user@example.com");
+
+        wireMock.verify(
+            getRequestedFor(
+                urlEqualTo(ApiPaths.USERS + "/1001")
+            )
+        );
     }
 }

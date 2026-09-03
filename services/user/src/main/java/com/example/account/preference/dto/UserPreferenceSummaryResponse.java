@@ -8,5 +8,5 @@ public record UserPreferenceSummaryResponse(
     String username,
     AlertCategory category,
     DeliveryChannel channel,
-    Boolean enabled
+    boolean enabled
 ) {}

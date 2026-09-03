@@ -21,5 +21,5 @@ public record UserUpdateRequest(
     String phoneNumber,
 
     @NotNull(message = "{user.active.required}")
-    Boolean active
+    boolean active
 ) {}

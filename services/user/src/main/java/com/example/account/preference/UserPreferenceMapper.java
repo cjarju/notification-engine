@@ -1,15 +1,15 @@
 package com.example.account.preference;
 
+import com.example.account.preference.dto.UserPreferenceCreateRequest;
+import com.example.account.preference.dto.UserPreferencePatchRequest;
+import com.example.account.preference.dto.UserPreferenceResponse;
+import com.example.account.preference.dto.UserPreferenceSummaryResponse;
+
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
-
-import com.example.account.preference.dto.UserPreferenceCreateRequest;
-import com.example.account.preference.dto.UserPreferencePatchRequest;
-import com.example.account.preference.dto.UserPreferenceResponse;
-import com.example.account.preference.dto.UserPreferenceSummaryResponse;
 
 @Mapper(componentModel = "spring")
 public interface UserPreferenceMapper {

@@ -1,13 +1,13 @@
 package com.example.account.preference;
 
-import java.util.List;
-import java.util.Optional;
+import com.example.account.preference.enums.AlertCategory;
+import com.example.account.preference.enums.DeliveryChannel;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.account.preference.enums.AlertCategory;
-import com.example.account.preference.enums.DeliveryChannel;
+import java.util.List;
+import java.util.Optional;
 
 public interface UserPreferenceRepository
         extends JpaRepository<UserPreference, Long> {

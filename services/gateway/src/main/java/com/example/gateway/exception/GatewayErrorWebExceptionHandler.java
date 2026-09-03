@@ -2,9 +2,6 @@ package com.example.gateway.exception;
 
 import com.example.gateway.constants.HeaderConstants;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.springframework.boot.webflux.error.ErrorWebExceptionHandler;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -18,18 +15,18 @@ import org.springframework.cloud.gateway.support.TimeoutException;
 
 import reactor.core.publisher.Mono;
 
+import io.netty.handler.timeout.ReadTimeoutException;
+
 import tools.jackson.databind.json.JsonMapper;
 
-import io.netty.handler.timeout.ReadTimeoutException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.ConnectException;
 import java.net.URI;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
+import java.time.Instant;
 
-/*
- * Customize the error response body to be consistent with the error contract
- */
+// Customizes gateway-level error response body
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -53,8 +50,8 @@ public class GatewayErrorWebExceptionHandler implements ErrorWebExceptionHandler
         GatewayError gatewayError = classify(exception);
 
         /*
-         * Only handle failures that represent communication problems with an
-         * upstream service. Everything else continues through the normal
+         * Only handle failures that represent communication problems with a
+         * downstream service. Everything else continues through the normal
          * WebFlux error handling chain.
          */
         if (gatewayError == null) {
@@ -69,7 +66,7 @@ public class GatewayErrorWebExceptionHandler implements ErrorWebExceptionHandler
         String path = exchange.getRequest().getPath().value();
 
         log.error(
-                "Gateway upstream failure: method={} path={} status={} " +
+                "Gateway downstream failure: method={} path={} status={} " +
                 "correlationId={} exception={}",
                 exchange.getRequest().getMethod(),
                 path,
@@ -84,7 +81,7 @@ public class GatewayErrorWebExceptionHandler implements ErrorWebExceptionHandler
         problemDetail.setTitle(gatewayError.title());
         problemDetail.setDetail(gatewayError.detail());
         problemDetail.setInstance(URI.create(path));
-        problemDetail.setProperty("timestamp", OffsetDateTime.now(ZoneOffset.UTC));
+        problemDetail.setProperty("timestamp", Instant.now());
         problemDetail.setProperty("correlationId", correlationId);
 
         ServerHttpResponse response = exchange.getResponse();
@@ -119,7 +116,7 @@ public class GatewayErrorWebExceptionHandler implements ErrorWebExceptionHandler
                 HttpStatus.BAD_GATEWAY,
                 "errors/bad-gateway",
                 "Bad Gateway",
-                "The gateway could not communicate with the upstream service."
+                "The gateway could not communicate with the downstream service."
             );
         }
 
@@ -129,7 +126,7 @@ public class GatewayErrorWebExceptionHandler implements ErrorWebExceptionHandler
                 HttpStatus.GATEWAY_TIMEOUT,
                 "errors/gateway-timeout",
                 "Gateway Timeout",
-                "The upstream service did not respond within the allowed time."
+                "The downstream service did not respond within the allowed time."
             );
         }
 

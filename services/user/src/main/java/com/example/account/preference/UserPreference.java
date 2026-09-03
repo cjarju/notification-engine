@@ -1,7 +1,5 @@
 package com.example.account.preference;
 
-import java.time.OffsetDateTime;
-
 import com.example.account.preference.enums.AlertCategory;
 import com.example.account.preference.enums.DeliveryChannel;
 import com.example.account.user.User;
@@ -22,6 +20,8 @@ import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.time.Instant;
 
 @Getter
 @ToString(includeFieldNames = true)
@@ -58,11 +58,11 @@ public class UserPreference {
 
     @Setter
     @Column(name = "is_enabled", nullable = false)
-    private Boolean enabled = true;
+    private boolean enabled = true;
 
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
-    private OffsetDateTime createdAt;
+    private Instant createdAt;
 
     @Column(name = "updated_at", nullable = false, insertable = false, updatable = false)
-    private OffsetDateTime updatedAt;
+    private Instant updatedAt;
 }

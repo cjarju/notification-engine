@@ -1,17 +1,17 @@
 package com.example.ingestion;
 
-import java.time.OffsetDateTime;
-import java.util.UUID;
-
-import org.springframework.stereotype.Service;
-
 import com.example.ingestion.dto.DispatchRequest;
 import com.example.ingestion.dto.DispatchResponse;
 import com.example.ingestion.dto.IngestRequest;
 import com.example.ingestion.dto.IngestResponse;
 
+import org.springframework.stereotype.Service;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.time.Instant;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -33,7 +33,7 @@ public class IngestionService {
             trackingId,
             request.userId(),
             dispatchResponse.status(),
-            OffsetDateTime.now()
+            Instant.now()
         );
     }
 

@@ -1,11 +1,11 @@
 package com.example.account.preference;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.example.account.preference.enums.AlertCategory;
 import com.example.account.preference.enums.DeliveryChannel;
 import com.example.account.user.User;
+
+import java.util.Arrays;
+import java.util.List;
 
 public final class UserPreferenceTestDataFactory {
 

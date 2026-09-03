@@ -1,5 +1,13 @@
 package com.example.account.user;
 
+import com.example.account.common.constants.ApiPaths;
+import com.example.account.common.dto.PageResponse;
+import com.example.account.common.enums.ProjectionType;
+import com.example.account.user.dto.UserCreateRequest;
+import com.example.account.user.dto.UserPatchRequest;
+import com.example.account.user.dto.UserResponse;
+import com.example.account.user.dto.UserUpdateRequest;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,15 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.example.account.common.constants.ApiPaths;
-import com.example.account.common.dto.PageResponse;
-import com.example.account.common.enums.ProjectionType;
-import com.example.account.user.dto.UserCreateRequest;
-import com.example.account.user.dto.UserPatchRequest;
-import com.example.account.user.dto.UserResponse;
-import com.example.account.user.dto.UserUpdateRequest;
-
 import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.data.domain.Pageable;
@@ -48,7 +47,7 @@ public class UserController {
 
         return switch (projection) {
             case DETAIL -> service.findUsers(criteria, pageable);
-            case SUMMARY -> service.findSummaryUsers(criteria, pageable);
+            case SUMMARY -> service.findUsersSummary(criteria, pageable);
         };
     }
 

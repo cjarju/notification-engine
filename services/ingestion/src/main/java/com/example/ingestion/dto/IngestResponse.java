@@ -1,10 +1,10 @@
 package com.example.ingestion.dto;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
 public record IngestResponse(
     String trackingId,
     Long userId,
     String status,
-    OffsetDateTime timestamp
+    Instant timestamp
 ) {}

@@ -46,12 +46,12 @@ class BadGatewayIntegrationTest {
     }
 
     @Test
-    void request_whenUpstreamConnectionFails_returns502BadGateway() {
+    void proxyNotification_whenDownstreamConnectionFails_returns502BadGateway() {
 
         String correlationId = "abc123";
 
         /*
-         * Stop the upstream server so that the Gateway gets a
+         * Stop the downstream server so that the Gateway gets a
          * connection failure when it attempts the request.
          */
         wireMockServer.stop();
@@ -85,7 +85,7 @@ class BadGatewayIntegrationTest {
                 .jsonPath("$.status")
                 .isEqualTo(502)
                 .jsonPath("$.detail")
-                .isEqualTo("The gateway could not communicate with the upstream service.")
+                .isEqualTo("The gateway could not communicate with the downstream service.")
                 .jsonPath("$.timestamp")
                 .exists()
                 .jsonPath("$.instance")

@@ -1,11 +1,11 @@
 package com.example.account.common.querysupport;
 
-import java.util.Locale;
+import com.example.account.common.enums.ProjectionType;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import com.example.account.common.enums.ProjectionType;
+import java.util.Locale;
 
 @Component
 public class StringToProjectionTypeConverter

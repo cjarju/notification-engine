@@ -6,8 +6,6 @@ import com.example.account.preference.dto.UserPreferenceCreateRequest;
 import com.example.account.preference.dto.UserPreferencePatchRequest;
 import com.example.account.preference.dto.UserPreferenceResponse;
 
-import java.util.List;
-
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(ApiPaths.USER_PREFERENCES)

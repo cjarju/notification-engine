@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-public class UserControllerTest extends BaseIntegrationTest {
+class UserControllerTest extends BaseIntegrationTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -146,5 +146,14 @@ public class UserControllerTest extends BaseIntegrationTest {
     void deleteUser_whenUserDoesNotExist_returns404() throws Exception {
         mockMvc.perform(delete(ApiPaths.USER, Long.MAX_VALUE))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void getResource_whenResourceDoesNotExist_returns404() throws Exception {
+
+        mockMvc.perform(get("/does-not-exist"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.title").value("Resource not found"))
+                .andExpect(jsonPath("$.detail").value("The requested resource was not found"));
     }
 }

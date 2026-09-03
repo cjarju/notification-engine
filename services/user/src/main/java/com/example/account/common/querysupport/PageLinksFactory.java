@@ -1,9 +1,9 @@
 package com.example.account.common.querysupport;
 
+import com.example.account.common.dto.PageLinks;
+
 import org.springframework.data.domain.Page;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import com.example.account.common.dto.PageLinks;
 
 public final class PageLinksFactory {
 

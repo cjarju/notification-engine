@@ -5,7 +5,9 @@ services:
     environment:
       POSTGRES_DB: ${USER_DB_NAME}
       POSTGRES_USER: ${USER_DB_USER}
-      POSTGRES_PASSWORD: ${USER_DB_PASSWORD}
+      POSTGRES_PASSWORD_FILE: /run/secrets/user-db-password
+    secrets:
+      - user-db-password
     volumes:
       - user-db-data:/var/lib/postgresql/data
     healthcheck:
@@ -22,16 +24,21 @@ services:
       target: dev
     ports:
       - "8083:8080"
+    env_file:
+      - path: app.env
+        required: false
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://user-db:5432/${USER_DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${USER_DB_USER}
-      SPRING_DATASOURCE_PASSWORD: ${USER_DB_PASSWORD}
+    secrets:
+      - source: user-db-password
+        target: spring.datasource.password
     volumes:
       - ./services/user:/workspace/services/user
       - user-target:/workspace/services/user/target
       - maven-cache:/root/.m2
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health/readiness"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "${ACTUATOR_READINESS_PROBE_URL}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -47,14 +54,17 @@ services:
       target: dev
     ports:
       - "8082:8080"
+    env_file:
+      - path: app.env
+        required: false
     environment:
-      USER_SERVICE_URL: http://user-service:8080
+      USER_SERVICE_URL: ${USER_SERVICE_URL}
     volumes:
       - ./services/dispatcher:/workspace/services/dispatcher
       - dispatcher-target:/workspace/services/dispatcher/target
       - maven-cache:/root/.m2
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health/readiness"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "${ACTUATOR_READINESS_PROBE_URL}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -70,14 +80,17 @@ services:
       target: dev
     ports:
       - "8081:8080"
+    env_file:
+      - path: app.env
+        required: false
     environment:
-      DISPATCHER_SERVICE_URL: http://dispatcher-service:8080
+      DISPATCHER_SERVICE_URL: ${DISPATCHER_SERVICE_URL}
     volumes:
       - ./services/ingestion:/workspace/services/ingestion
       - ingestion-target:/workspace/services/ingestion/target
       - maven-cache:/root/.m2
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health/readiness"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "${ACTUATOR_READINESS_PROBE_URL}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -93,16 +106,19 @@ services:
       target: dev
     ports:
       - "8080:8080"
+    env_file:
+      - path: app.env
+        required: false
     environment:
-      USER_SERVICE_URL: http://user-service:8080
-      DISPATCHER_SERVICE_URL: http://dispatcher-service:8080
-      INGESTION_SERVICE_URL: http://ingestion-service:8080
+      USER_SERVICE_URL: ${USER_SERVICE_URL}
+      DISPATCHER_SERVICE_URL: ${DISPATCHER_SERVICE_URL}
+      INGESTION_SERVICE_URL: ${INGESTION_SERVICE_URL}
     volumes:
       - ./services/gateway:/workspace/services/gateway
       - gateway-target:/workspace/services/gateway/target
       - maven-cache:/root/.m2
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health/readiness"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "${ACTUATOR_READINESS_PROBE_URL}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -118,3 +134,7 @@ volumes:
   dispatcher-target:
   ingestion-target:
   gateway-target:
+
+secrets:
+  user-db-password:
+    file: ${USER_DB_PASSWORD_FILE}

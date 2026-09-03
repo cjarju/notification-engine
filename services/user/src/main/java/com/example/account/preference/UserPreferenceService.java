@@ -1,24 +1,25 @@
 package com.example.account.preference;
 
-import java.util.List;
-
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import com.example.account.user.User;
+import com.example.account.user.UserRepository;
+import com.example.account.user.exception.UserNotFoundException;
 import com.example.account.preference.dto.UserPreferenceCreateRequest;
 import com.example.account.preference.dto.UserPreferencePatchRequest;
 import com.example.account.preference.dto.UserPreferenceResponse;
 import com.example.account.preference.dto.UserPreferenceSummaryResponse;
 import com.example.account.preference.exception.UserPreferenceAlreadyExistsException;
 import com.example.account.preference.exception.UserPreferenceNotFoundException;
-import com.example.account.user.User;
-import com.example.account.user.UserRepository;
-import com.example.account.user.exception.UserNotFoundException;
+
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.persistence.EntityManager;
+
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor

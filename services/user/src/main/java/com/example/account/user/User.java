@@ -1,7 +1,5 @@
 package com.example.account.user;
 
-import java.time.OffsetDateTime;
-
 import com.example.account.common.constants.RegExpStr;
 
 import jakarta.persistence.Column;
@@ -18,6 +16,8 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.time.Instant;
 
 @Getter
 @ToString(includeFieldNames=true)
@@ -50,11 +50,11 @@ public class User {
 
     @Setter
     @Column(name = "is_active", nullable = false)
-    private Boolean active = true;
+    private boolean active = true;
 
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
-    private OffsetDateTime createdAt;
+    private Instant createdAt;
 
     @Column(name = "updated_at", nullable = false, insertable = false, updatable = false)
-    private OffsetDateTime updatedAt;
+    private Instant updatedAt;
 }

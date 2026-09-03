@@ -9,6 +9,7 @@ import com.example.ingestion.exception.DispatcherCommunicationException;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestClientException;
 
 @Component
 public class DispatcherClient {
@@ -25,15 +26,23 @@ public class DispatcherClient {
     }
 
     public DispatchResponse dispatchNotification(DispatchRequest request) {
-        return dispatcherRestClient.post()
+        try {
+            return dispatcherRestClient.post()
                 .uri(ApiPaths.DISPATCH)
                 .body(request)
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, (req, resp) -> {
                     throw new DispatcherCommunicationException(
-                            "Dispatcher service returned status: " + resp.getStatusCode()
+                        "Dispatcher service returned status: " + resp.getStatusCode()
                     );
                 })
                 .body(DispatchResponse.class);
+
+        } catch (RestClientException ex) {
+            throw new DispatcherCommunicationException(
+                "Failed to communicate with Dispatcher service",
+                ex
+            );
+        }
     }
 }

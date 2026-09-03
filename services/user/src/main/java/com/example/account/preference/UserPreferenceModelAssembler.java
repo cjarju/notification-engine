@@ -1,13 +1,13 @@
 package com.example.account.preference;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import com.example.account.common.enums.ProjectionType;
+import com.example.account.preference.dto.UserPreferenceResponse;
 
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
-import com.example.account.common.enums.ProjectionType;
-import com.example.account.preference.dto.UserPreferenceResponse;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @Component
 public class UserPreferenceModelAssembler

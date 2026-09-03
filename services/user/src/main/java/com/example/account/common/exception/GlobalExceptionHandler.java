@@ -1,59 +1,80 @@
 package com.example.account.common.exception;
 
-import java.util.List;
+import com.example.account.user.exception.UserAlreadyExistsException;
+import com.example.account.user.exception.UserNotFoundException;
+import com.example.account.preference.exception.UserPreferenceAlreadyExistsException;
+import com.example.account.preference.exception.UserPreferenceNotFoundException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import com.example.account.user.exception.UserAlreadyExistsException;
-import com.example.account.user.exception.UserNotFoundException;
-import com.example.account.preference.exception.UserPreferenceAlreadyExistsException;
-import com.example.account.preference.exception.UserPreferenceNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.net.URI;
+import java.time.Instant;
+import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     @ExceptionHandler(UserNotFoundException.class)
-    public ProblemDetail handleUserNotFound(UserNotFoundException ex) {
-        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
-        problem.setTitle("User not found");
-        problem.setDetail(ex.getMessage());
-        return problem;
+    public ProblemDetail handleUserNotFoundException(UserNotFoundException ex) {
+
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+        problemDetail.setType(URI.create("errors/user-not-found"));
+        problemDetail.setTitle("User not found");
+        problemDetail.setDetail(ex.getMessage());
+        problemDetail.setProperty("timestamp", Instant.now());
+
+        return problemDetail;
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
-    public ProblemDetail handleUserAlreadyExists(UserAlreadyExistsException ex) {
-        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.CONFLICT);
-        problem.setTitle("User already exists");
-        problem.setDetail(ex.getMessage());
-        return problem;
+    public ProblemDetail handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
+
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+
+        problemDetail.setType(URI.create("errors/user-already-exists"));
+        problemDetail.setTitle("User already exists");
+        problemDetail.setDetail(ex.getMessage());
+        problemDetail.setProperty("timestamp", Instant.now());
+
+        return problemDetail;
     }
 
     @ExceptionHandler(UserPreferenceNotFoundException.class)
-    public ProblemDetail handleUserPreferenceNotFound(UserPreferenceNotFoundException ex) {
-        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
-        problem.setTitle("User preference not found");
-        problem.setDetail(ex.getMessage());
-        return problem;
+    public ProblemDetail handleUserPreferenceNotFoundException(UserPreferenceNotFoundException ex) {
+
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+        problemDetail.setType(URI.create("errors/user-preference-not-found"));
+        problemDetail.setTitle("User preference not found");
+        problemDetail.setDetail(ex.getMessage());
+        problemDetail.setProperty("timestamp", Instant.now());
+
+        return problemDetail;
     }
 
     @ExceptionHandler(UserPreferenceAlreadyExistsException.class)
-    public ProblemDetail handleUserPreferenceAlreadyExists(UserPreferenceAlreadyExistsException ex) {
-        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.CONFLICT);
-        problem.setTitle("User preference already exists");
-        problem.setDetail(ex.getMessage());
-        return problem;
+    public ProblemDetail handleUserPreferenceAlreadyExistsException(UserPreferenceAlreadyExistsException ex) {
+
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+        problemDetail.setType(URI.create("errors/user-preference-already-exists"));
+        problemDetail.setTitle("User preference already exists");
+        problemDetail.setDetail(ex.getMessage());
+        problemDetail.setProperty("timestamp", Instant.now());
+
+        return problemDetail;
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ProblemDetail handleValidation(MethodArgumentNotValidException ex) {
-        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
-
-        problem.setTitle("Validation failed");
-        problem.setDetail("One or more fields are invalid");
+    public ProblemDetail handleValidationException(MethodArgumentNotValidException ex) {
 
         List<ValidationError> errors = ex.getBindingResult()
                 .getFieldErrors()
@@ -63,8 +84,39 @@ public class GlobalExceptionHandler {
                         error.getDefaultMessage()))
                 .toList();
 
-        problem.setProperty("errors", errors);
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problemDetail.setType(URI.create("errors/bad-request"));
+        problemDetail.setTitle("Validation failed");
+        problemDetail.setDetail("One or more fields are invalid");
+        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty("errors", errors);
 
-        return problem;
+        return problemDetail;
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ProblemDetail handleNoResourceFoundException(NoResourceFoundException ex) {
+
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+        problemDetail.setType(URI.create("errors/resource-not-found"));
+        problemDetail.setTitle("Resource not found");
+        problemDetail.setDetail("The requested resource was not found");
+        problemDetail.setProperty("timestamp", Instant.now());
+
+        return problemDetail;
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ProblemDetail handleGenericException(Exception ex) {
+
+        log.error("Unexpected internal error", ex);
+
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        problemDetail.setTitle("Internal Server Error");
+        problemDetail.setDetail("An unexpected internal error occurred");
+        problemDetail.setType(URI.create("errors/internal-server-error"));
+        problemDetail.setProperty("timestamp", Instant.now());
+
+        return problemDetail;
     }
 }

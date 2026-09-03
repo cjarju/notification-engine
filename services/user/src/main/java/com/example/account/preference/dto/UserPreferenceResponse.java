@@ -1,9 +1,9 @@
 package com.example.account.preference.dto;
 
-import java.time.OffsetDateTime;
-
 import com.example.account.preference.enums.AlertCategory;
 import com.example.account.preference.enums.DeliveryChannel;
+
+import java.time.Instant;
 
 public record UserPreferenceResponse(
     Long id,
@@ -11,7 +11,7 @@ public record UserPreferenceResponse(
     String username,
     AlertCategory category,
     DeliveryChannel channel,
-    Boolean enabled,
-    OffsetDateTime createdAt,
-    OffsetDateTime updatedAt
+    boolean enabled,
+    Instant createdAt,
+    Instant updatedAt
 ) {}

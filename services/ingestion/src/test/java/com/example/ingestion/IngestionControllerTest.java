@@ -7,6 +7,7 @@ import com.example.ingestion.constants.ApiPaths;
 import com.example.ingestion.exception.GlobalExceptionHandler;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
@@ -14,12 +15,13 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.context.annotation.Import;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -34,7 +36,7 @@ class IngestionControllerTest {
     private IngestionService ingestionService;
 
     @Test
-    void ingest_whenPayloadIsInvalid_returns400BadRequest() throws Exception {
+    void ingestNotification_whenPayloadIsInvalid_returns400BadRequest() throws Exception {
         String invalidJson = """
             {
               "userId": null,
@@ -58,7 +60,7 @@ class IngestionControllerTest {
     }
 
     @Test
-    void ingest_whenDispatcherFails_returns502BadGateway() throws Exception {
+    void ingestNotification_whenDispatcherFails_returns502BadGateway() throws Exception {
         String validJson = """
             {
               "userId": 1001,
@@ -83,7 +85,7 @@ class IngestionControllerTest {
     }
 
     @Test
-    void ingest_whenValidPayload_returns200Ok() throws Exception {
+    void ingestNotification_whenValidPayload_returns200Ok() throws Exception {
         String validJson = """
             {
               "userId": 1001,
@@ -97,7 +99,7 @@ class IngestionControllerTest {
                 "123-abc",
                 1001L,
                 "ACCEPTED",
-                OffsetDateTime.now()
+                Instant.now()
         );
 
         when(ingestionService.processIngestion(any(IngestRequest.class)))
@@ -111,4 +113,14 @@ class IngestionControllerTest {
                 .andExpect(jsonPath("$.status").value("ACCEPTED"))
                 .andExpect(jsonPath("$.userId").value(1001));
     }
+
+    @Test
+    void getResource_whenResourceDoesNotExist_returns404() throws Exception {
+
+        mockMvc.perform(get("/does-not-exist"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.title").value("Resource not found"))
+                .andExpect(jsonPath("$.detail").value("The requested resource was not found"));
+    }
+
 }

@@ -65,18 +65,14 @@ def calculate_progress(milestone):
     progress = 0 if total == 0 else round(closed_count / total * 100)
 
     if progress == 100:
-        icon = "✅"
         status = "Complete"
     elif progress == 0:
-        icon = "⏳"
         status = "Planned"
     else:
-        icon = "🚧"
         status = "In Progress"
 
     return {
         "progress": progress,
-        "icon": icon,
         "status": status,
         "open": open_count,
         "closed": closed_count,
@@ -94,7 +90,7 @@ def build_roadmap_table(milestones):
 
         rows.append([
             milestone["title"],
-            f'{stats["icon"]} {stats["progress"]}%',
+            f'{stats["progress"]}%',
             stats["open"],
             stats["closed"],
             stats["status"],
@@ -123,7 +119,7 @@ def build_milestone_sections(milestones):
         stats = calculate_progress(milestone)
 
         sections.append(
-            f"### {stats['icon']} {milestone['title']}\n"
+            f"### {milestone['title']}\n"
         )
 
         if milestone["description"]:
