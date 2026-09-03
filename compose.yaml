@@ -5,7 +5,9 @@ services:
     environment:
       POSTGRES_DB: ${USER_DB_NAME}
       POSTGRES_USER: ${USER_DB_USER}
-      POSTGRES_PASSWORD: ${USER_DB_PASSWORD}
+      POSTGRES_PASSWORD_FILE: /run/secrets/user-db-password
+    secrets:
+      - user-db-password
     volumes:
       - user-db-data:/var/lib/postgresql/data
     healthcheck:
@@ -25,7 +27,9 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://user-db:5432/${USER_DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${USER_DB_USER}
-      SPRING_DATASOURCE_PASSWORD: ${USER_DB_PASSWORD}
+    secrets:
+      - source: user-db-password
+        target: spring.datasource.password
     volumes:
       - ./services/user:/workspace/services/user
       - user-target:/workspace/services/user/target
@@ -118,3 +122,7 @@ volumes:
   dispatcher-target:
   ingestion-target:
   gateway-target:
+
+secrets:
+  user-db-password:
+    file: ./secrets/user/db-password
